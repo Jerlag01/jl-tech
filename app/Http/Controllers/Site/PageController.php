@@ -18,6 +18,7 @@ class PageController extends Controller
     {
         return view('site.home', [
             'services' => Service::query()->visible()->where('show_on_home', true)->get(),
+            'hasServices' => Service::query()->where('active', true)->exists(),
             'featuredProject' => Project::query()->visible()->where('featured', true)->first(),
             'projects' => Project::query()->visible()->where('show_on_home', true)->take(6)->get(),
             'marqueeClients' => Client::query()->visible()->where('in_marquee', true)->get(),

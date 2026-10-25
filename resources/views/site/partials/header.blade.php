@@ -11,18 +11,18 @@
 
         <ul class="nav-menu" id="navMenu">
             <li><a href="{{ page_url('home') }}" @class(['active' => $current === 'home'])>{{ __('Home') }}</a></li>
-            <li class="nav-item-dropdown">
-                <a href="{{ page_url('services') }}" class="nav-trigger {{ $current === 'services' ? 'active' : '' }}">
-                    {{ __('Services') }} <x-site-icon name="chevron" size="12" class="chevron" />
-                </a>
-                @if ($navServices->isNotEmpty())
+            @if ($navServices->isNotEmpty())
+                <li class="nav-item-dropdown">
+                    <a href="{{ page_url('services') }}" class="nav-trigger {{ $current === 'services' ? 'active' : '' }}">
+                        {{ __('Services') }} <x-site-icon name="chevron" size="12" class="chevron" />
+                    </a>
                     <ul class="nav-dropdown">
                         @foreach ($navServices as $service)
                             <li><a href="{{ page_url('services', null, $service->slug) }}">{{ $service->tr('title') }}</a></li>
                         @endforeach
                     </ul>
-                @endif
-            </li>
+                </li>
+            @endif
             <li><a href="{{ page_url('projects') }}" @class(['active' => $current === 'projects'])>{{ __('Projects') }}</a></li>
             @if ($companyPages->isNotEmpty())
                 <li class="nav-item-dropdown">
@@ -42,6 +42,7 @@
             @if (page_enabled('jobs'))
                 <li><a href="{{ page_url('jobs') }}" @class(['active' => $current === 'jobs'])>{{ __('Careers') }}</a></li>
             @endif
+            <li><a href="{{ support_route('home') }}" @class(['active' => str((string) $current)->startsWith('support.')])>{{ __('Support') }}</a></li>
             <li><a href="{{ page_url('contact') }}" class="btn-nav {{ $current === 'contact' ? 'active' : '' }}">{{ __('Contact') }}</a></li>
             <li class="lang-switch" aria-label="{{ __('Language') }}">
                 @foreach (config('site.locales') as $locale => $label)

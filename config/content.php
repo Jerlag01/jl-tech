@@ -123,6 +123,19 @@ return [
         ],
     ],
 
+    'helpdesk' => [
+        'label' => 'Helpdesk',
+        'tab' => 'helpdesk',
+        'fields' => [
+            'helpdesk.default_department_id' => ['label' => 'Default department', 'type' => 'number', 'default' => ''],
+            'helpdesk.default_sla_plan_id' => ['label' => 'Default SLA plan', 'type' => 'number', 'default' => ''],
+            'helpdesk.allow_registration' => ['label' => 'Clients can create an account', 'type' => 'boolean', 'default' => '1'],
+            'helpdesk.auto_assign_on_reply' => ['label' => 'Assign a ticket to the first agent who answers', 'type' => 'boolean', 'default' => '1'],
+            'helpdesk.clients_can_reopen' => ['label' => 'Clients can reopen closed tickets', 'type' => 'boolean', 'default' => '1'],
+            'helpdesk.show_knowledge_base' => ['label' => 'Show the knowledge base', 'type' => 'boolean', 'default' => '1'],
+        ],
+    ],
+
     'stats' => [
         'label' => 'Key figures',
         'tab' => 'general',

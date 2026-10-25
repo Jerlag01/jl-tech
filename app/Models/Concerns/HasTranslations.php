@@ -16,6 +16,14 @@ trait HasTranslations
     }
 
     /**
+     * Alias of tr(), used by the helpdesk models and views.
+     */
+    public function translate(string $attribute, ?string $locale = null): string
+    {
+        return $this->tr($attribute, $locale);
+    }
+
+    /**
      * Get a translated multi-line attribute as a list of non-empty lines.
      *
      * @return list<string>

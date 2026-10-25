@@ -4,6 +4,7 @@ return [
     'groups' => [
         'content' => 'Content',
         'contact' => 'Contact',
+        'helpdesk' => 'Helpdesk',
         'system' => 'Administration',
     ],
     'nav' => [
@@ -41,6 +42,7 @@ return [
             'employees' => 'Who is who',
             'job_offers' => 'Vacancies',
             'footer_links' => 'Footer links',
+            'helpdesk' => 'Helpdesk configuration',
             'contact_messages' => 'Contact messages',
             'blocked_ips' => 'Blocked IP addresses',
             'users' => 'Users',
@@ -56,6 +58,7 @@ return [
             'contact' => 'Contact details',
             'mail' => 'Email',
             'appearance' => 'Appearance',
+            'helpdesk' => 'Helpdesk',
         ],
     ],
     'status' => [
@@ -175,12 +178,15 @@ return [
         'title' => 'Website settings',
         'saved' => 'Settings saved',
         'tabs' => [
+            'helpdesk' => 'Helpdesk',
             'general' => 'General',
             'contact' => 'Contact details',
             'mail' => 'Email',
             'appearance' => 'Appearance',
         ],
         'sections' => [
+            'routing' => 'New tickets',
+            'portal' => 'Support portal',
             'identity' => 'Company',
             'pages' => 'Pages',
             'figures' => 'Key figures',
@@ -195,6 +201,14 @@ return [
             'custom_css' => 'Custom CSS',
         ],
         'fields' => [
+            'default_department' => 'Default department',
+            'first_department' => 'First department',
+            'default_sla_plan' => 'Default SLA plan',
+            'no_sla_plan' => 'No SLA plan',
+            'allow_registration' => 'Clients can create an account',
+            'clients_can_reopen' => 'Clients can reopen closed tickets',
+            'auto_assign_on_reply' => 'Assign a ticket to the first agent who replies',
+            'show_knowledge_base' => 'Show the knowledge base',
             'site_name' => 'Company name',
             'legal_name' => 'Legal name (footer & privacy policy)',
             'founded' => 'Founded in',
@@ -238,6 +252,9 @@ return [
             'logo_footer' => 'Logo for dark background (footer)',
         ],
         'help' => [
+            'routing' => 'Used when a help topic or department has no own department or SLA plan.',
+            'allow_registration' => 'Switched off, only agents can create client accounts.',
+            'auto_assign_on_reply' => 'Only for tickets that are not yet assigned.',
             'figures' => 'Shown on the home, team and careers pages. Leave a figure empty to hide it.',
             'pages' => 'Switched off, the page and its menu links disappear. "Who is who" and "News" are also hidden while they have nothing to show.',
             'notify_email' => 'Every message is also stored under "Contact messages". Empty = no email.',

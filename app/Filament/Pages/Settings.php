@@ -6,6 +6,8 @@ use App\Enums\AdminNavigationGroup;
 use App\Filament\Support\ContentFields;
 use App\Filament\Support\TranslatableTabs;
 use App\Models\Content;
+use App\Models\Department;
+use App\Models\SlaPlan;
 use App\Support\Settings as SiteSettings;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -88,7 +90,7 @@ class Settings extends Page
 
     public function mount(): void
     {
-        $state = ContentFields::state(collect(['general', 'contact', 'mail', 'appearance'])
+        $state = ContentFields::state(collect(['general', 'contact', 'mail', 'appearance', 'helpdesk'])
             ->flatMap(fn (string $tab): array => static::fieldsOnTab($tab))
             ->all());
 
@@ -121,6 +123,10 @@ class Settings extends Page
                             ->visible(fn (): bool => static::canEdit('appearance'))
                             ->icon(Heroicon::OutlinedSwatch)
                             ->schema($this->appearanceFields()),
+                        Tab::make(__('admin.settings.tabs.helpdesk'))
+                            ->visible(fn (): bool => static::canEdit('helpdesk'))
+                            ->icon(Heroicon::OutlinedLifebuoy)
+                            ->schema($this->helpdeskFields()),
                     ]),
             ]);
     }
@@ -154,7 +160,7 @@ class Settings extends Page
         }
 
         // Only tabs the user may edit are saved, whatever the request contains.
-        foreach (['general', 'contact', 'mail', 'appearance'] as $tab) {
+        foreach (['general', 'contact', 'mail', 'appearance', 'helpdesk'] as $tab) {
             if (static::canEdit($tab)) {
                 ContentFields::save(static::fieldsOnTab($tab), $data);
             }
@@ -440,6 +446,42 @@ class Settings extends Page
                         ->rows(12)
                         ->extraInputAttributes(['class' => 'font-mono', 'spellcheck' => 'false'])
                         ->placeholder(".hero-title {\n    letter-spacing: -0.02em;\n}"),
+                ]),
+        ];
+    }
+
+    /**
+     * @return array<Component|Field>
+     */
+    protected function helpdeskFields(): array
+    {
+        return [
+            Section::make(__('admin.settings.sections.routing'))
+                ->description(__('admin.settings.help.routing'))
+                ->columns(2)
+                ->schema([
+                    Select::make('helpdesk.default_department_id')
+                        ->label(__('admin.settings.fields.default_department'))
+                        ->options(fn (): array => Department::query()->orderBy('name')->pluck('name', 'id')->all())
+                        ->placeholder(__('admin.settings.fields.first_department')),
+                    Select::make('helpdesk.default_sla_plan_id')
+                        ->label(__('admin.settings.fields.default_sla_plan'))
+                        ->options(fn (): array => SlaPlan::query()->where('is_active', true)->orderBy('name')->pluck('name', 'id')->all())
+                        ->placeholder(__('admin.settings.fields.no_sla_plan')),
+                ]),
+            Section::make(__('admin.settings.sections.portal'))
+                ->columns(2)
+                ->schema([
+                    Toggle::make('helpdesk.allow_registration')
+                        ->label(__('admin.settings.fields.allow_registration'))
+                        ->helperText(__('admin.settings.help.allow_registration')),
+                    Toggle::make('helpdesk.clients_can_reopen')
+                        ->label(__('admin.settings.fields.clients_can_reopen')),
+                    Toggle::make('helpdesk.auto_assign_on_reply')
+                        ->label(__('admin.settings.fields.auto_assign_on_reply'))
+                        ->helperText(__('admin.settings.help.auto_assign_on_reply')),
+                    Toggle::make('helpdesk.show_knowledge_base')
+                        ->label(__('admin.settings.fields.show_knowledge_base')),
                 ]),
         ];
     }

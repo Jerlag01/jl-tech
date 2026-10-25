@@ -4,6 +4,7 @@ return [
     'groups' => [
         'content' => 'Inhoud',
         'contact' => 'Contact',
+        'helpdesk' => 'Helpdesk',
         'system' => 'Beheer',
     ],
     'nav' => [
@@ -41,6 +42,7 @@ return [
             'employees' => 'Wie is wie',
             'job_offers' => 'Vacatures',
             'footer_links' => 'Footerlinks',
+            'helpdesk' => 'Helpdesk-instellingen',
             'contact_messages' => 'Contactberichten',
             'blocked_ips' => 'Geblokkeerde IP-adressen',
             'users' => 'Gebruikers',
@@ -56,6 +58,7 @@ return [
             'contact' => 'Contactgegevens',
             'mail' => 'E-mail',
             'appearance' => 'Opmaak',
+            'helpdesk' => 'Helpdesk',
         ],
     ],
     'status' => [
@@ -175,12 +178,15 @@ return [
         'title' => 'Website-instellingen',
         'saved' => 'Instellingen opgeslagen',
         'tabs' => [
+            'helpdesk' => 'Helpdesk',
             'general' => 'Algemeen',
             'contact' => 'Contactgegevens',
             'mail' => 'E-mail',
             'appearance' => 'Opmaak',
         ],
         'sections' => [
+            'routing' => 'Nieuwe tickets',
+            'portal' => 'Klantenportaal',
             'identity' => 'Bedrijf',
             'pages' => "Pagina's",
             'figures' => 'Kerncijfers',
@@ -195,6 +201,14 @@ return [
             'custom_css' => 'Eigen CSS',
         ],
         'fields' => [
+            'default_department' => 'Standaardafdeling',
+            'first_department' => 'Eerste afdeling',
+            'default_sla_plan' => 'Standaard SLA-plan',
+            'no_sla_plan' => 'Geen SLA-plan',
+            'allow_registration' => 'Klanten kunnen een account aanmaken',
+            'clients_can_reopen' => 'Klanten kunnen gesloten tickets heropenen',
+            'auto_assign_on_reply' => 'Ticket toewijzen aan de eerste medewerker die antwoordt',
+            'show_knowledge_base' => 'Kennisbank tonen',
             'site_name' => 'Bedrijfsnaam',
             'legal_name' => 'Juridische naam (footer & privacybeleid)',
             'founded' => 'Opgericht in',
@@ -238,6 +252,9 @@ return [
             'logo_footer' => 'Logo voor donkere achtergrond (footer)',
         ],
         'help' => [
+            'routing' => 'Gebruikt wanneer een onderwerp of afdeling geen eigen afdeling of SLA-plan heeft.',
+            'allow_registration' => 'Uitgeschakeld kunnen enkel medewerkers klantaccounts aanmaken.',
+            'auto_assign_on_reply' => 'Enkel voor tickets die nog niet toegewezen zijn.',
             'figures' => 'Getoond op de home-, team- en vacaturepagina. Laat een cijfer leeg om het te verbergen.',
             'pages' => 'Uitgeschakeld verdwijnen de pagina en de links in het menu. "Wie is wie" en "Nieuws" blijven ook verborgen zolang ze niets te tonen hebben.',
             'notify_email' => 'Elk bericht wordt ook in "Contactberichten" bewaard. Leeg = geen e-mail.',

@@ -76,6 +76,17 @@ class PublicPagesTest extends TestCase
             ->assertSee('Acme Partner');
     }
 
+    public function test_services_leave_the_navigation_when_none_are_visible(): void
+    {
+        Service::factory()->hidden()->create();
+
+        $this->get('/nl')->assertOk()->assertDontSee('/nl/expertises', false);
+
+        Service::factory()->create();
+
+        $this->get('/nl')->assertOk()->assertSee('href="'.url('/nl/expertises').'"', false);
+    }
+
     public function test_hidden_services_are_not_shown(): void
     {
         Service::factory()->hidden()->create(['title' => ['nl' => 'Verborgen dienst', 'en' => 'Hidden service']]);

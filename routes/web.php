@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Site\ContactController;
 use App\Http\Controllers\Site\PageController;
+use App\Http\Controllers\Support\TicketAttachmentController;
 use App\Http\Middleware\BlockBlockedIps;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,12 @@ foreach (array_keys(config('site.locales')) as $locale) {
             Route::post(config("site.pages.contact.{$locale}"), ContactController::class)
                 ->middleware('throttle:5,1')
                 ->name('contact.send');
+
+            Route::prefix('support')->name('support.')->group(base_path('routes/support.php'));
         });
 }
+
+// Ticket attachments are linked from the portal and the agent panel, so they have one language-neutral URL.
+Route::get('support/attachments/{attachment}', [TicketAttachmentController::class, 'show'])
+    ->middleware(['auth', BlockBlockedIps::class])
+    ->name('support.attachments.show');

@@ -4,9 +4,12 @@ namespace App\Providers\Filament;
 
 use App\Enums\AdminNavigationGroup;
 use App\Filament\Pages\Auth\EditProfile;
+use App\Filament\Widgets\HelpdeskOverview;
 use App\Filament\Widgets\StatsOverview;
 use App\Http\Middleware\SetUserLocale;
 use App\Support\Settings;
+use App\Support\TwoFactor;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -17,6 +20,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -35,7 +39,10 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->passwordReset()
-            ->profile(EditProfile::class)
+            ->profile(EditProfile::class, isSimple: false)
+            // Two-step verification is recommended, not required; one set-up works in /admin, /agent and the portal.
+            ->multiFactorAuthentication(fn (): array => [TwoFactor::app(), TwoFactor::email()], isRequired: false)
+            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => view('filament.two-factor-reminder'))
             ->brandName(fn (): string => content('company.name').' · Admin')
             ->brandLogo(fn () => view('filament.brand'))
             ->brandLogoHeight('2.25rem')
@@ -46,6 +53,13 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->favicon(fn (): ?string => content_image('branding.favicon'))
             ->navigationGroups(AdminNavigationGroup::class)
+            ->userMenuItems([
+                Action::make('agentPanel')
+                    ->label(fn (): string => __('helpdesk.panels.agent'))
+                    ->icon(Heroicon::OutlinedLifebuoy)
+                    ->url(fn (): string => url('/agent'))
+                    ->visible(fn (): bool => (bool) auth()->user()?->isStaff()),
+            ])
             ->navigationItems([
                 NavigationItem::make('website')
                     ->label(fn (): string => __('admin.nav.view_site'))
@@ -61,6 +75,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 StatsOverview::class,
+                HelpdeskOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,

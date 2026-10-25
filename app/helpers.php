@@ -3,6 +3,7 @@
 use App\Models\Content;
 use App\Models\Employee;
 use App\Models\Post;
+use App\Support\HelpdeskSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -98,5 +99,24 @@ if (! function_exists('current_page')) {
         [$locale, $page] = explode('.', $name, 2);
 
         return array_key_exists($locale, config('site.locales')) ? $page : null;
+    }
+}
+
+if (! function_exists('helpdesk')) {
+    function helpdesk(): HelpdeskSettings
+    {
+        return app(HelpdeskSettings::class);
+    }
+}
+
+if (! function_exists('support_route')) {
+    /**
+     * URL of a support portal route in the given (or current) locale, e.g. support_route('tickets.show', $ticket).
+     */
+    function support_route(string $name, mixed $parameters = [], ?string $locale = null): string
+    {
+        $locale ??= array_key_exists(app()->getLocale(), config('site.locales')) ? app()->getLocale() : config('site.default_locale');
+
+        return route("{$locale}.support.{$name}", $parameters);
     }
 }

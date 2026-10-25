@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -60,6 +61,46 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'role_id' => Role::factory()->withPermissions($permissions),
+        ]);
+    }
+
+    /**
+     * A client of the support portal: no website role.
+     */
+    public function customer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => null,
+            'support_role' => UserRole::Customer,
+        ]);
+    }
+
+    /**
+     * A helpdesk agent: works in /agent, has no website role.
+     */
+    public function agent(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => null,
+            'support_role' => UserRole::Agent,
+        ]);
+    }
+
+    /**
+     * A helpdesk administrator in /agent (all departments), without a website role.
+     */
+    public function helpdeskAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => null,
+            'support_role' => UserRole::Admin,
+        ]);
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_active' => false,
         ]);
     }
 

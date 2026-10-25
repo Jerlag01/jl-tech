@@ -25,6 +25,9 @@ class Settings
             return;
         }
 
+        // Mail templates show the app name in their header and footer.
+        config(['app.name' => Content::text('company.name') ?: config('app.name')]);
+
         if (blank($mailer)) {
             return;
         }
@@ -39,7 +42,7 @@ class Settings
             'mail.mailers.smtp.password' => filled($password) ? static::decrypt($password) : null,
             'mail.mailers.smtp.scheme' => Content::text('mail.scheme'),
             'mail.from.address' => Content::text('mail.from_address'),
-            'mail.from.name' => Content::text('mail.from_name'),
+            'mail.from.name' => Content::text('mail.from_name') ?: Content::text('company.name'),
         ], fn (mixed $value): bool => filled($value)));
     }
 

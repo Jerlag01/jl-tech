@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class UserResource extends Resource
@@ -38,6 +39,16 @@ class UserResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('admin.resources.user.plural');
+    }
+
+    /**
+     * Website administrators only; helpdesk agents and portal clients are managed elsewhere.
+     *
+     * @return Builder<User>
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereNotNull('role_id');
     }
 
     public static function form(Schema $schema): Schema

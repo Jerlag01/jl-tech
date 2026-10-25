@@ -43,7 +43,9 @@
                     <p class="hero-description">{{ content('home.hero_text') }}</p>
                     <div class="hero-actions">
                         <a href="{{ page_url('projects') }}" class="btn btn-primary btn-large">{{ content('home.hero_button_1') }} <x-site-icon name="arrow" size="16" /></a>
-                        <a href="{{ page_url('services') }}" class="btn btn-outline-light btn-large">{{ content('home.hero_button_2') }}</a>
+                        @if ($hasServices)
+                            <a href="{{ page_url('services') }}" class="btn btn-outline-light btn-large">{{ content('home.hero_button_2') }}</a>
+                        @endif
                     </div>
                 </div>
 

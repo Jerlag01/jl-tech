@@ -19,10 +19,11 @@ class Permissions
         'job_offers' => ['view', 'create', 'update', 'delete'],
         'footer_links' => ['view', 'create', 'update', 'delete'],
         'contact_messages' => ['view', 'update', 'delete'],
+        'helpdesk' => ['view', 'create', 'update', 'delete'],
         'blocked_ips' => ['view', 'create', 'update', 'delete'],
         'users' => ['view', 'create', 'update', 'delete'],
         'roles' => ['view', 'create', 'update', 'delete'],
-        'settings' => ['general', 'contact', 'mail', 'appearance'],
+        'settings' => ['general', 'contact', 'mail', 'appearance', 'helpdesk'],
     ];
 
     /**

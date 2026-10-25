@@ -26,7 +26,9 @@
                 <h4 class="footer-heading">{{ __('Navigation') }}</h4>
                 <ul class="footer-links">
                     <li><a href="{{ page_url('home') }}">{{ __('Home') }}</a></li>
-                    <li><a href="{{ page_url('services') }}">{{ __('Services') }}</a></li>
+                    @if ($footerServices->isNotEmpty())
+                        <li><a href="{{ page_url('services') }}">{{ __('Services') }}</a></li>
+                    @endif
                     <li><a href="{{ page_url('projects') }}">{{ __('Projects') }}</a></li>
                     @if (page_enabled('news'))
                         <li><a href="{{ page_url('news') }}">{{ __('News') }}</a></li>
@@ -34,17 +36,20 @@
                     @if (page_enabled('jobs'))
                         <li><a href="{{ page_url('jobs') }}">{{ __('Careers') }}</a></li>
                     @endif
+                    <li><a href="{{ support_route('home') }}">{{ __('Support') }}</a></li>
                     <li><a href="{{ page_url('contact') }}">{{ __('Contact') }}</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
-                <h4 class="footer-heading">{{ __('Services') }}</h4>
-                <ul class="footer-links">
-                    @foreach ($footerServices as $service)
-                        <li><a href="{{ page_url('services', null, $service->slug) }}">{{ $service->tr('title') }}</a></li>
-                    @endforeach
-                </ul>
-            </div>
+            @if ($footerServices->isNotEmpty())
+                <div class="footer-col">
+                    <h4 class="footer-heading">{{ __('Services') }}</h4>
+                    <ul class="footer-links">
+                        @foreach ($footerServices as $service)
+                            <li><a href="{{ page_url('services', null, $service->slug) }}">{{ $service->tr('title') }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="footer-col">
                 @if ($companyPages->isNotEmpty())
                     <h4 class="footer-heading">{{ __('Company') }}</h4>

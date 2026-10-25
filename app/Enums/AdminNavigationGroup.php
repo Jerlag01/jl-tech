@@ -8,6 +8,7 @@ enum AdminNavigationGroup implements HasLabel
 {
     case Content;
     case Contact;
+    case Helpdesk;
     case System;
 
     public function getLabel(): string

@@ -127,3 +127,32 @@
         });
     }
 })();
+
+/* --- Support portal: chosen attachments and double-submit protection --- */
+(function () {
+    'use strict';
+
+    document.querySelectorAll('[data-file-input]').forEach(function (input) {
+        var list = document.querySelector('[data-file-list="' + input.id + '"]');
+        if (!list) {
+            return;
+        }
+        input.addEventListener('change', function () {
+            list.innerHTML = '';
+            Array.prototype.forEach.call(input.files, function (file) {
+                var item = document.createElement('li');
+                item.textContent = file.name + ' (' + Math.max(1, Math.round(file.size / 1024)) + ' KB)';
+                list.appendChild(item);
+            });
+        });
+    });
+
+    document.querySelectorAll('form[data-submit-once]').forEach(function (form) {
+        form.addEventListener('submit', function () {
+            var button = form.querySelector('button[type="submit"]');
+            if (button) {
+                setTimeout(function () { button.disabled = true; }, 0);
+            }
+        });
+    });
+})();

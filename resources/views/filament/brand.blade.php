@@ -5,6 +5,6 @@
     @endif
     <span style="display: flex; flex-direction: column; line-height: 1.1;">
         <span style="color: inherit; font-size: .9375rem; font-weight: 800; letter-spacing: -.01em;">{{ content('company.name') }}</span>
-        <span style="opacity: .6; font-size: .625rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase;">Admin</span>
+        <span style="opacity: .6; font-size: .625rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase;">{{ $label ?? 'Admin' }}</span>
     </span>
 </span>
