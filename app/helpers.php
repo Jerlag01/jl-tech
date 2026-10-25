@@ -24,6 +24,18 @@ if (! function_exists('content_image')) {
     }
 }
 
+if (! function_exists('key_figure')) {
+    /**
+     * A key figure (e.g. "stats.employees"), or null when it has no value so the view can hide it.
+     */
+    function key_figure(string $key): ?string
+    {
+        $value = trim(content($key));
+
+        return $value === '' || $value === '0' ? null : $value;
+    }
+}
+
 if (! function_exists('content_enabled')) {
     function content_enabled(string $key): bool
     {

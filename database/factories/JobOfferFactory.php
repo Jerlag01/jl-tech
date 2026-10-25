@@ -11,14 +11,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class JobOfferFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
+        $title = fake()->jobTitle();
+
         return [
-            //
+            'title' => ['nl' => 'NL '.$title, 'en' => 'EN '.$title],
+            'badge' => ['nl' => 'Techniek', 'en' => 'Engineering'],
+            'tags' => ['nl' => "Vast contract\nVoltijds", 'en' => "Permanent\nFull-time"],
+            'description' => ['nl' => fake()->sentence(), 'en' => fake()->sentence()],
+            'active' => true,
+            'sort' => fake()->numberBetween(1, 50),
         ];
     }
 }

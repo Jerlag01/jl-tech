@@ -3,34 +3,36 @@
 @section('content')
     @include('site.partials.page-header', ['prefix' => 'jobs'])
 
-    @php($email = content('contact.email'))
+    @php
+        $email = content('contact.email');
+
+        // Figures without a value are left out.
+        $introStats = collect([
+            ['value' => key_figure('stats.employees'), 'prefix' => '±', 'suffix' => '', 'label' => content('home.fig_employees_label')],
+            ['value' => key_figure('company.founded_year'), 'prefix' => '', 'suffix' => '', 'label' => content('home.fig_founded_label')],
+            ['value' => $serviceCount ?: null, 'prefix' => '', 'suffix' => '', 'label' => __('Areas of expertise')],
+            ['value' => key_figure('stats.vehicles'), 'prefix' => '', 'suffix' => '+', 'label' => content('home.fig_vehicles_label')],
+        ])->filter(fn (array $stat) => $stat['value'] !== null);
+    @endphp
 
     <section class="jobs-intro">
         <div class="container">
-            <div class="jobs-intro-grid">
+            <div @class(['jobs-intro-grid', 'no-stats' => $introStats->isEmpty()])>
                 <div class="reveal-left">
                     <span class="eyebrow">{{ content('jobs.intro_label') }}</span>
                     <h2 class="section-title">{{ content('jobs.intro_title') }}</h2>
                     <p class="intro-text">{{ content('jobs.intro_text') }}</p>
                 </div>
-                <div class="jobs-intro-stats reveal-right">
-                    <div class="jobs-intro-stat">
-                        <span class="jobs-intro-stat-value">±{{ content('stats.employees') }}</span>
-                        <span class="jobs-intro-stat-label">{{ content('home.fig_employees_label') }}</span>
+                @if ($introStats->isNotEmpty())
+                    <div class="jobs-intro-stats reveal-right">
+                        @foreach ($introStats as $stat)
+                            <div class="jobs-intro-stat">
+                                <span class="jobs-intro-stat-value">{{ $stat['prefix'] }}{{ $stat['value'] }}{{ $stat['suffix'] }}</span>
+                                <span class="jobs-intro-stat-label">{{ $stat['label'] }}</span>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="jobs-intro-stat">
-                        <span class="jobs-intro-stat-value">{{ content('company.founded_year') }}</span>
-                        <span class="jobs-intro-stat-label">{{ content('home.fig_founded_label') }}</span>
-                    </div>
-                    <div class="jobs-intro-stat">
-                        <span class="jobs-intro-stat-value">{{ $serviceCount }}</span>
-                        <span class="jobs-intro-stat-label">{{ __('Areas of expertise') }}</span>
-                    </div>
-                    <div class="jobs-intro-stat">
-                        <span class="jobs-intro-stat-value">{{ content('stats.vehicles') }}+</span>
-                        <span class="jobs-intro-stat-label">{{ content('home.fig_vehicles_label') }}</span>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </section>

@@ -11,14 +11,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ContentFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            //
+            'key' => 'company.name',
+            'value' => fake()->company(),
         ];
     }
 }

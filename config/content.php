@@ -34,7 +34,7 @@ return [
                 'nl' => 'Uw partner in technische infrastructuur',
                 'en' => 'Your partner in technical infrastructure',
             ]],
-            'company.founded_year' => ['label' => 'Founded in (year)', 'type' => 'number', 'default' => '2015'],
+            'company.founded_year' => ['label' => 'Founded in (year)', 'type' => 'number', 'default' => '2015', 'help' => 'Leave empty to hide this figure on the website.'],
             'company.location' => ['label' => 'Location (short)', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'België', 'en' => 'Belgium']],
             'company.vat' => ['label' => 'VAT number', 'type' => 'text', 'default' => 'BE 0000.000.000'],
             'company.registry' => ['label' => 'Company registry (RPR)', 'type' => 'text', 'default' => 'RPR'],
@@ -93,9 +93,9 @@ return [
         'label' => 'Key figures',
         'settings' => true,
         'fields' => [
-            'stats.employees' => ['label' => 'Number of employees', 'type' => 'number', 'default' => '25'],
-            'stats.vehicles' => ['label' => 'Number of vehicles', 'type' => 'number', 'default' => '15'],
-            'stats.projects' => ['label' => 'Projects completed', 'type' => 'number', 'default' => '300'],
+            'stats.employees' => ['label' => 'Number of employees', 'type' => 'number', 'default' => '25', 'help' => 'Leave empty to hide this figure on the website.'],
+            'stats.vehicles' => ['label' => 'Number of vehicles', 'type' => 'number', 'default' => '15', 'help' => 'Leave empty to hide this figure on the website.'],
+            'stats.projects' => ['label' => 'Projects completed', 'type' => 'number', 'default' => '300', 'help' => 'Leave empty to hide this figure on the website.'],
         ],
     ],
 

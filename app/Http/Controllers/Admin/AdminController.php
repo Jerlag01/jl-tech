@@ -37,7 +37,7 @@ abstract class AdminController extends Controller
                         ->map(fn (string $other): string => "{$attribute}.{$other}")
                         ->implode(',');
 
-                    $rules["{$attribute}.{$locale}"][0] = "required_without_all:{$others}";
+                    $rules["{$attribute}.{$locale}"][] = "required_without_all:{$others}";
                 }
             }
         }

@@ -1,7 +1,23 @@
 @extends('layouts.site')
 
 @section('content')
-    @php($heroImage = content_image('home.hero_image'))
+    @php
+        $heroImage = content_image('home.hero_image');
+
+        // Key figures that have a value; empty ones are left out everywhere on the page.
+        $figures = collect([
+            'employees' => ['key' => 'stats.employees', 'prefix' => '±', 'suffix' => ''],
+            'vehicles' => ['key' => 'stats.vehicles', 'prefix' => '', 'suffix' => '+'],
+            'founded' => ['key' => 'company.founded_year', 'prefix' => '', 'suffix' => ''],
+            'projects' => ['key' => 'stats.projects', 'prefix' => '', 'suffix' => '+'],
+        ])
+            ->map(fn (array $figure) => $figure + ['value' => key_figure($figure['key'])])
+            ->filter(fn (array $figure) => $figure['value'] !== null);
+
+        $heroFigures = collect(['employees', 'vehicles', 'projects', 'founded'])
+            ->filter(fn (string $name) => $figures->has($name))
+            ->mapWithKeys(fn (string $name) => [$name => $figures[$name]]);
+    @endphp
 
     {{-- Hero --}}
     <section class="hero">
@@ -31,27 +47,19 @@
                     </div>
                 </div>
 
-                <div class="hero-visual">
-                    <div class="hero-stats-card">
-                        <div class="hero-stats-card-title">{{ content('home.hero_card_title') }}</div>
-                        <div class="hero-stat-row">
-                            <span class="hero-stat-number">±{{ content('stats.employees') }}</span>
-                            <span class="hero-stat-label">{{ content('home.fig_employees_label') }}</span>
-                        </div>
-                        <div class="hero-stat-row">
-                            <span class="hero-stat-number">{{ content('stats.vehicles') }}+</span>
-                            <span class="hero-stat-label">{{ content('home.fig_vehicles_label') }}</span>
-                        </div>
-                        <div class="hero-stat-row">
-                            <span class="hero-stat-number">{{ content('stats.projects') }}+</span>
-                            <span class="hero-stat-label">{{ content('home.fig_projects_label') }}</span>
-                        </div>
-                        <div class="hero-stat-row">
-                            <span class="hero-stat-number">{{ content('company.founded_year') }}</span>
-                            <span class="hero-stat-label">{{ content('home.fig_founded_label') }}</span>
+                @if ($heroFigures->isNotEmpty())
+                    <div class="hero-visual">
+                        <div class="hero-stats-card">
+                            <div class="hero-stats-card-title">{{ content('home.hero_card_title') }}</div>
+                            @foreach ($heroFigures as $name => $figure)
+                                <div class="hero-stat-row">
+                                    <span class="hero-stat-number">{{ $figure['prefix'] }}{{ $figure['value'] }}{{ $figure['suffix'] }}</span>
+                                    <span class="hero-stat-label">{{ content('home.fig_'.$name.'_label') }}</span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
 
@@ -106,24 +114,21 @@
     </section>
 
     {{-- Key figures --}}
-    <section class="figures">
-        <div class="container">
-            <div class="figures-grid">
-                @foreach ([
-                    ['count' => content('stats.employees'), 'prefix' => '±', 'suffix' => '', 'label' => 'employees'],
-                    ['count' => content('stats.vehicles'), 'prefix' => '', 'suffix' => '+', 'label' => 'vehicles'],
-                    ['count' => content('company.founded_year'), 'prefix' => '', 'suffix' => '', 'label' => 'founded'],
-                    ['count' => content('stats.projects'), 'prefix' => '', 'suffix' => '+', 'label' => 'projects'],
-                ] as $figure)
-                    <div class="figures-item reveal reveal-delay-{{ $loop->iteration }}">
-                        <span class="figures-number" data-count="{{ (int) $figure['count'] }}" data-prefix="{{ $figure['prefix'] }}" data-suffix="{{ $figure['suffix'] }}">{{ $figure['prefix'] }}{{ $figure['count'] }}{{ $figure['suffix'] }}</span>
-                        <span class="figures-label">{{ content('home.fig_'.$figure['label'].'_label') }}</span>
-                        <span class="figures-sub">{{ content('home.fig_'.$figure['label'].'_sub') }}</span>
-                    </div>
-                @endforeach
+    @if ($figures->isNotEmpty())
+        <section class="figures">
+            <div class="container">
+                <div class="figures-grid count-{{ $figures->count() }}">
+                    @foreach ($figures as $name => $figure)
+                        <div class="figures-item reveal reveal-delay-{{ $loop->iteration }}">
+                            <span class="figures-number" data-count="{{ (int) $figure['value'] }}" data-prefix="{{ $figure['prefix'] }}" data-suffix="{{ $figure['suffix'] }}">{{ $figure['prefix'] }}{{ $figure['value'] }}{{ $figure['suffix'] }}</span>
+                            <span class="figures-label">{{ content('home.fig_'.$name.'_label') }}</span>
+                            <span class="figures-sub">{{ content('home.fig_'.$name.'_sub') }}</span>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     {{-- Services --}}
     @if ($services->isNotEmpty())

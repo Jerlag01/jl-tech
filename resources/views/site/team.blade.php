@@ -10,18 +10,23 @@
                 <h2 class="section-title">{{ content('team.overview_title') }}</h2>
                 <p>{{ content('team.overview_text') }}</p>
             </div>
-            <div class="team-stats">
-                <div class="team-stat-card reveal-scale reveal-delay-1">
-                    <div class="team-stat-number">±{{ content('stats.employees') }}</div>
-                    <div class="team-stat-label">{{ content('home.fig_employees_label') }}</div>
+            @php($employees = key_figure('stats.employees'))
+            @if ($employees || content('team.quality_value'))
+                <div class="team-stats">
+                    @if ($employees)
+                        <div class="team-stat-card reveal-scale reveal-delay-1">
+                            <div class="team-stat-number">±{{ $employees }}</div>
+                            <div class="team-stat-label">{{ content('home.fig_employees_label') }}</div>
+                        </div>
+                    @endif
+                    @if (content('team.quality_value'))
+                        <div class="team-stat-card reveal-scale reveal-delay-2">
+                            <div class="team-stat-number">{{ content('team.quality_value') }}</div>
+                            <div class="team-stat-label">{{ content('team.quality_label') }}</div>
+                        </div>
+                    @endif
                 </div>
-                @if (content('team.quality_value'))
-                    <div class="team-stat-card reveal-scale reveal-delay-2">
-                        <div class="team-stat-number">{{ content('team.quality_value') }}</div>
-                        <div class="team-stat-label">{{ content('team.quality_label') }}</div>
-                    </div>
-                @endif
-            </div>
+            @endif
         </div>
     </section>
 
@@ -87,10 +92,12 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="fleet-total reveal">
-                    <div class="fleet-total-number">{{ content('stats.vehicles') }}+</div>
-                    <div class="fleet-total-label">{{ content('team.fleet_total_label') }}</div>
-                </div>
+                @if ($vehicles = key_figure('stats.vehicles'))
+                    <div class="fleet-total reveal">
+                        <div class="fleet-total-number">{{ $vehicles }}+</div>
+                        <div class="fleet-total-label">{{ content('team.fleet_total_label') }}</div>
+                    </div>
+                @endif
             </div>
         </section>
     @endif
