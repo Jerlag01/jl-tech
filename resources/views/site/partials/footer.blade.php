@@ -1,6 +1,7 @@
 @php
     $footerServices = \App\Models\Service::query()->visible()->get(['id', 'slug', 'title']);
-    $companyPages = collect(['history', 'team', 'esg'])->filter(fn ($p) => page_enabled($p));
+    $companyPages = collect(['history', 'team', 'who_is_who', 'esg'])->filter(fn ($p) => page_enabled($p));
+    $footerLinks = \App\Models\FooterLink::forFooter();
     $email = content('contact.email');
     $socials = collect(['linkedin', 'facebook', 'instagram'])->mapWithKeys(fn ($s) => [$s => content('social.'.$s)])->filter();
 @endphp
@@ -14,10 +15,10 @@
                 <p class="footer-description">{{ content('footer.description') }}</p>
                 <div class="footer-social">
                     @foreach ($socials as $network => $url)
-                        <a href="{{ $url }}" class="social-link" target="_blank" rel="noopener" aria-label="{{ ucfirst($network) }}"><x-icon :name="$network" size="16" /></a>
+                        <a href="{{ $url }}" class="social-link" target="_blank" rel="noopener" aria-label="{{ ucfirst($network) }}"><x-site-icon :name="$network" size="16" /></a>
                     @endforeach
                     @if ($email)
-                        <a href="mailto:{{ $email }}" class="social-link" aria-label="Email"><x-icon name="mail" size="16" /></a>
+                        <a href="mailto:{{ $email }}" class="social-link" aria-label="Email"><x-site-icon name="mail" size="16" /></a>
                     @endif
                 </div>
             </div>
@@ -27,6 +28,9 @@
                     <li><a href="{{ page_url('home') }}">{{ __('Home') }}</a></li>
                     <li><a href="{{ page_url('services') }}">{{ __('Services') }}</a></li>
                     <li><a href="{{ page_url('projects') }}">{{ __('Projects') }}</a></li>
+                    @if (page_enabled('news'))
+                        <li><a href="{{ page_url('news') }}">{{ __('News') }}</a></li>
+                    @endif
                     @if (page_enabled('jobs'))
                         <li><a href="{{ page_url('jobs') }}">{{ __('Careers') }}</a></li>
                     @endif
@@ -58,6 +62,13 @@
                 @endif
             </div>
         </div>
+        @if ($footerLinks->isNotEmpty())
+            <ul class="footer-extra-links">
+                @foreach ($footerLinks as $link)
+                    <li><a href="{{ $link->url }}" @if ($link->open_in_new_tab) target="_blank" rel="noopener" @endif>{{ $link->tr('label') }}</a></li>
+                @endforeach
+            </ul>
+        @endif
         <div class="footer-bottom">
             <p>&copy; {{ date('Y') }} {{ content('company.legal_name') }}. {{ __('All rights reserved.') }} | <a href="{{ page_url('privacy') }}">{{ __('Privacy policy') }}</a></p>
             <p>{{ __('VAT') }}: {{ content('company.vat') }} @if (content('company.registry')) | {{ content('company.registry') }} @endif</p>

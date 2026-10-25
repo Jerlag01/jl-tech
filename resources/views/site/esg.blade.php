@@ -21,7 +21,7 @@
                 <div class="card-grid-3">
                     @foreach ($pillars as $pillar)
                         <div class="esg-card reveal reveal-delay-{{ min($loop->iteration, 4) }}">
-                            <div class="icon-card-icon"><x-icon :name="$pillar->icon" size="26" /></div>
+                            <div class="icon-card-icon"><x-site-icon :name="$pillar->icon" size="26" /></div>
                             <h3>{{ $pillar->tr('title') }}</h3>
                             <p>{{ $pillar->tr('body') }}</p>
                             @if ($points = $pillar->trLines('list'))
@@ -67,7 +67,7 @@
                 <div class="esg-actions-grid">
                     @foreach ($actions as $action)
                         <div class="esg-action-item reveal">
-                            <div class="esg-action-icon"><x-icon :name="$action->icon" size="22" /></div>
+                            <div class="esg-action-icon"><x-site-icon :name="$action->icon" size="22" /></div>
                             <div>
                                 <h4>{{ $action->tr('title') }}</h4>
                                 <p>{{ $action->tr('body') }}</p>

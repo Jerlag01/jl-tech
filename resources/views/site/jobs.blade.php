@@ -46,11 +46,11 @@
 
             @if ($jobs->isEmpty())
                 <div class="jobs-empty reveal">
-                    <div class="jobs-empty-icon"><x-icon name="briefcase" size="32" /></div>
+                    <div class="jobs-empty-icon"><x-site-icon name="briefcase" size="32" /></div>
                     <h3>{{ content('jobs.empty_title') }}</h3>
                     <p>{{ content('jobs.empty_text') }}</p>
                     @if ($email)
-                        <a href="mailto:{{ $email }}?subject={{ rawurlencode(__('Open application')) }}" class="btn btn-primary">{{ content('jobs.empty_button') }} <x-icon name="arrow" size="16" /></a>
+                        <a href="mailto:{{ $email }}?subject={{ rawurlencode(__('Open application')) }}" class="btn btn-primary">{{ content('jobs.empty_button') }} <x-site-icon name="arrow" size="16" /></a>
                     @endif
                 </div>
             @else
@@ -64,12 +64,12 @@
                             @if ($tags = $job->trLines('tags'))
                                 <div class="job-card-tags">
                                     @foreach ($tags as $tag)
-                                        <span class="job-card-tag"><x-icon name="tag" size="12" /> {{ $tag }}</span>
+                                        <span class="job-card-tag"><x-site-icon name="tag" size="12" /> {{ $tag }}</span>
                                     @endforeach
                                 </div>
                             @endif
                             <p class="job-card-description">{{ $job->tr('description') }}</p>
-                            <a href="{{ $email ? 'mailto:'.$email.'?subject='.rawurlencode($job->tr('title')) : page_url('contact') }}" class="job-card-action">{{ content('jobs.apply_button') }} <x-icon name="arrow" size="16" /></a>
+                            <a href="{{ $email ? 'mailto:'.$email.'?subject='.rawurlencode($job->tr('title')) : page_url('contact') }}" class="job-card-action">{{ content('jobs.apply_button') }} <x-site-icon name="arrow" size="16" /></a>
                         </article>
                     @endforeach
                 </div>

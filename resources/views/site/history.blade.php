@@ -77,7 +77,7 @@
                             @if ($leader->image)
                                 <img src="{{ media_url($leader->image) }}" alt="{{ $leader->tr('title') }}" class="leader-photo" loading="lazy">
                             @else
-                                <div class="leader-icon"><x-icon :name="$leader->icon ?: 'user'" size="28" /></div>
+                                <div class="leader-icon"><x-site-icon :name="$leader->icon ?: 'user'" size="28" /></div>
                             @endif
                             <h3>{{ $leader->tr('title') }}</h3>
                             <div class="leader-role">{{ $leader->tr('subtitle') }}</div>

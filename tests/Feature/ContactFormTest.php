@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mail\ContactMessageReceived;
+use App\Models\ContactMessage;
 use App\Models\Content;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -38,6 +39,16 @@ class ContactFormTest extends TestCase
 
         $this->assertDatabaseHas('contact_messages', ['email' => 'jan@example.com', 'locale' => 'nl']);
         Mail::assertSent(ContactMessageReceived::class, fn (ContactMessageReceived $mail): bool => $mail->hasTo('office@example.com'));
+    }
+
+    public function test_the_notification_email_links_to_the_message_in_the_admin(): void
+    {
+        $message = ContactMessage::factory()->create(['subject' => 'Offerte straatverlichting']);
+
+        $text = (new ContactMessageReceived($message))->render();
+
+        $this->assertStringContainsString('Offerte straatverlichting', $text);
+        $this->assertStringContainsString(url("/admin/contact-messages/{$message->getKey()}"), $text);
     }
 
     public function test_required_fields_and_privacy_consent_are_validated(): void

@@ -1,6 +1,6 @@
 @php
     $navServices = \App\Models\Service::query()->visible()->get(['id', 'slug', 'title']);
-    $companyPages = collect(['history', 'team', 'esg'])->filter(fn ($p) => page_enabled($p));
+    $companyPages = collect(['history', 'team', 'who_is_who', 'esg'])->filter(fn ($p) => page_enabled($p));
     $current = current_page();
 @endphp
 <nav class="navbar" id="navbar">
@@ -13,7 +13,7 @@
             <li><a href="{{ page_url('home') }}" @class(['active' => $current === 'home'])>{{ __('Home') }}</a></li>
             <li class="nav-item-dropdown">
                 <a href="{{ page_url('services') }}" class="nav-trigger {{ $current === 'services' ? 'active' : '' }}">
-                    {{ __('Services') }} <x-icon name="chevron" size="12" class="chevron" />
+                    {{ __('Services') }} <x-site-icon name="chevron" size="12" class="chevron" />
                 </a>
                 @if ($navServices->isNotEmpty())
                     <ul class="nav-dropdown">
@@ -27,7 +27,7 @@
             @if ($companyPages->isNotEmpty())
                 <li class="nav-item-dropdown">
                     <a href="{{ page_url($companyPages->first()) }}" class="nav-trigger {{ $companyPages->contains($current) ? 'active' : '' }}">
-                        {{ __('Company') }} <x-icon name="chevron" size="12" class="chevron" />
+                        {{ __('Company') }} <x-site-icon name="chevron" size="12" class="chevron" />
                     </a>
                     <ul class="nav-dropdown">
                         @foreach ($companyPages as $companyPage)
@@ -35,6 +35,9 @@
                         @endforeach
                     </ul>
                 </li>
+            @endif
+            @if (page_enabled('news'))
+                <li><a href="{{ page_url('news') }}" @class(['active' => in_array($current, ['news', 'news.show'], true)])>{{ __('News') }}</a></li>
             @endif
             @if (page_enabled('jobs'))
                 <li><a href="{{ page_url('jobs') }}" @class(['active' => $current === 'jobs'])>{{ __('Careers') }}</a></li>

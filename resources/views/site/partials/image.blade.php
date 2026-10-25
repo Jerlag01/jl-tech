@@ -3,6 +3,6 @@
     <img src="{{ $src }}" alt="{{ $alt }}" class="{{ $class ?? '' }}" loading="lazy">
 @else
     <div class="img-placeholder {{ $class ?? '' }}" role="img" aria-label="{{ $alt }}">
-        <x-icon :name="$icon ?? 'bolt'" size="48" />
+        <x-site-icon :name="$icon ?? 'bolt'" size="48" />
     </div>
 @endif

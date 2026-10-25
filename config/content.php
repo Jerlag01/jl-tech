@@ -12,13 +12,13 @@
 |
 | Field options:
 |   label    Label shown in the admin
-|   type     text | textarea | html | image | number | boolean | email | url
+|   type     text | textarea | html | image | number | boolean | email | url | color | code
 |   tr       true when the field has a Dutch and an English version
 |   default  string, or ['nl' => ..., 'en' => ...] for translated fields
 |   help     optional hint shown under the field
 |
-| Groups flagged 'settings' => true are listed under "Settings" in the admin,
-| the others under "Page content".
+| Groups with a 'tab' are edited on that tab of "Website settings" in the
+| admin (general, contact, mail, appearance); the others under "Page texts".
 |
 */
 
@@ -26,7 +26,7 @@ return [
 
     'company' => [
         'label' => 'Company',
-        'settings' => true,
+        'tab' => 'general',
         'fields' => [
             'company.name' => ['label' => 'Company name', 'type' => 'text', 'default' => 'JL-Tech'],
             'company.legal_name' => ['label' => 'Legal name (footer & privacy policy)', 'type' => 'text', 'default' => 'JL-Tech'],
@@ -47,7 +47,7 @@ return [
 
     'contact' => [
         'label' => 'Contact details',
-        'settings' => true,
+        'tab' => 'contact',
         'fields' => [
             'contact.email' => ['label' => 'Public email address', 'type' => 'email', 'default' => 'info@jl-tech.be'],
             'contact.phone' => ['label' => 'Phone number', 'type' => 'text', 'default' => '+32 000 00 00 00'],
@@ -71,7 +71,7 @@ return [
 
     'social' => [
         'label' => 'Social media',
-        'settings' => true,
+        'tab' => 'contact',
         'fields' => [
             'social.linkedin' => ['label' => 'LinkedIn URL', 'type' => 'url', 'default' => ''],
             'social.facebook' => ['label' => 'Facebook URL', 'type' => 'url', 'default' => ''],
@@ -81,7 +81,7 @@ return [
 
     'branding' => [
         'label' => 'Logo & images',
-        'settings' => true,
+        'tab' => 'appearance',
         'fields' => [
             'branding.logo' => ['label' => 'Logo (navigation bar, light background)', 'type' => 'image', 'help' => 'Without a logo, the company name is shown as text.'],
             'branding.logo_footer' => ['label' => 'Logo for dark background (footer)', 'type' => 'image', 'help' => 'Optional. Falls back to the main logo.'],
@@ -89,9 +89,43 @@ return [
         ],
     ],
 
+    'appearance' => [
+        'label' => 'Colours',
+        'tab' => 'appearance',
+        'fields' => [
+            'appearance.primary' => ['label' => 'Primary colour', 'type' => 'color', 'default' => '#002B45'],
+            'appearance.primary_dark' => ['label' => 'Primary colour (dark)', 'type' => 'color', 'default' => '#001823'],
+            'appearance.accent' => ['label' => 'Accent colour', 'type' => 'color', 'default' => '#F7941D'],
+            'appearance.accent_hover' => ['label' => 'Accent colour (hover)', 'type' => 'color', 'default' => '#E58413'],
+        ],
+    ],
+
+    'custom_css' => [
+        'label' => 'Custom CSS',
+        'tab' => 'appearance',
+        'fields' => [
+            'appearance.custom_css' => ['label' => 'Custom CSS', 'type' => 'code', 'default' => '', 'help' => 'Extra CSS loaded on every page of the website.'],
+        ],
+    ],
+
+    'mail' => [
+        'label' => 'Outgoing email',
+        'tab' => 'mail',
+        'fields' => [
+            'mail.mailer' => ['label' => 'Delivery method', 'type' => 'text', 'default' => ''],
+            'mail.host' => ['label' => 'SMTP server', 'type' => 'text', 'default' => ''],
+            'mail.port' => ['label' => 'Port', 'type' => 'number', 'default' => '587'],
+            'mail.scheme' => ['label' => 'Security', 'type' => 'text', 'default' => ''],
+            'mail.username' => ['label' => 'Username', 'type' => 'text', 'default' => ''],
+            'mail.password' => ['label' => 'Password', 'type' => 'text', 'default' => ''],
+            'mail.from_address' => ['label' => 'From address', 'type' => 'email', 'default' => ''],
+            'mail.from_name' => ['label' => 'From name', 'type' => 'text', 'default' => ''],
+        ],
+    ],
+
     'stats' => [
         'label' => 'Key figures',
-        'settings' => true,
+        'tab' => 'general',
         'fields' => [
             'stats.employees' => ['label' => 'Number of employees', 'type' => 'number', 'default' => '25', 'help' => 'Leave empty to hide this figure on the website.'],
             'stats.vehicles' => ['label' => 'Number of vehicles', 'type' => 'number', 'default' => '15', 'help' => 'Leave empty to hide this figure on the website.'],
@@ -101,12 +135,14 @@ return [
 
     'pages' => [
         'label' => 'Pages',
-        'settings' => true,
+        'tab' => 'general',
         'fields' => [
             'pages.history' => ['label' => 'Show the "History" page', 'type' => 'boolean', 'default' => '1'],
             'pages.team' => ['label' => 'Show the "Team & resources" page', 'type' => 'boolean', 'default' => '1'],
             'pages.esg' => ['label' => 'Show the "ESG" page', 'type' => 'boolean', 'default' => '1'],
             'pages.jobs' => ['label' => 'Show the "Careers" page', 'type' => 'boolean', 'default' => '1'],
+            'pages.who_is_who' => ['label' => 'Show the "Who is who" page', 'type' => 'boolean', 'default' => '1', 'help' => 'Only shown when at least one person is visible under "Who is who".'],
+            'pages.news' => ['label' => 'Show the "News" page', 'type' => 'boolean', 'default' => '1', 'help' => 'Only shown when at least one news post is published.'],
         ],
     ],
 
@@ -362,6 +398,28 @@ return [
                 'en' => "<p>JL-Tech attaches great importance to protecting your personal data. This policy describes how we collect, use and protect your data in accordance with the General Data Protection Regulation (GDPR).</p>\n<h2>1. Data controller</h2>\n<p>The data controller is JL-Tech. You will find our contact details at the bottom of this page.</p>\n<h2>2. What data do we collect?</h2>\n<ul>\n<li><strong>Contact form:</strong> name, email address, phone number (optional), subject and message</li>\n<li><strong>Applications:</strong> CV, cover letter and contact details</li>\n</ul>\n<h2>3. What do we use it for?</h2>\n<ul>\n<li>Answering your questions and requests</li>\n<li>Processing your job application</li>\n<li>Complying with our legal obligations</li>\n</ul>\n<h2>4. Retention period</h2>\n<p>We keep contact requests and applications for up to 2 years after the last contact.</p>\n<h2>5. Recipients</h2>\n<p>Your data is never sold. It may be shared with technical service providers (hosting, email) acting as processors.</p>\n<h2>6. Your rights</h2>\n<p>You have the right to access, rectify, erase, restrict, port and object. Contact us to exercise them; we reply within one month.</p>\n<h2>7. Cookies</h2>\n<p>This website only uses cookies that are strictly necessary for it to work.</p>\n<h2>8. Complaints</h2>\n<p>You can lodge a complaint with the Belgian Data Protection Authority, Rue de la Presse 35, 1000 Brussels – <a href=\"https://www.dataprotectionauthority.be\" target=\"_blank\" rel=\"noopener\">www.dataprotectionauthority.be</a>.</p>",
             ]],
             'privacy.updated' => ['label' => 'Last updated', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Laatst bijgewerkt: oktober 2026', 'en' => 'Last updated: October 2026']],
+        ],
+    ],
+
+    'who_is_who' => [
+        'label' => 'Who is who page',
+        'page' => 'who_is_who',
+        'fields' => [
+            'who_is_who.label' => ['label' => 'Header – label', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Ons team', 'en' => 'Our team']],
+            'who_is_who.title' => ['label' => 'Header – title', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Wie is wie', 'en' => 'Who is who']],
+            'who_is_who.text' => ['label' => 'Header – text', 'type' => 'textarea', 'tr' => true, 'default' => ['nl' => 'Maak kennis met de mensen achter JL-Tech', 'en' => 'Meet the people behind JL-Tech']],
+        ],
+    ],
+
+    'news' => [
+        'label' => 'News page',
+        'page' => 'news',
+        'fields' => [
+            'news.label' => ['label' => 'Header – label', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Actueel', 'en' => 'Latest']],
+            'news.title' => ['label' => 'Header – title', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Nieuws', 'en' => 'News']],
+            'news.text' => ['label' => 'Header – text', 'type' => 'textarea', 'tr' => true, 'default' => ['nl' => 'Het laatste nieuws over onze projecten en ons bedrijf', 'en' => 'The latest news about our projects and our company']],
+            'news.read_more' => ['label' => 'Read more link', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Lees meer', 'en' => 'Read more']],
+            'news.back' => ['label' => 'Back link on a post', 'type' => 'text', 'tr' => true, 'default' => ['nl' => 'Terug naar het nieuws', 'en' => 'Back to the news']],
         ],
     ],
 

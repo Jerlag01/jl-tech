@@ -9,4 +9,4 @@ Language: {{ $contactMessage->locale }}
 {{ $contactMessage->message }}
 
 --
-View in admin: {{ route('admin.messages.show', $contactMessage) }}
+View in admin: {{ \App\Filament\Resources\ContactMessages\ContactMessageResource::getUrl('view', ['record' => $contactMessage], panel: 'admin') }}

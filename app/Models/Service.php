@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\CleansUpFiles;
 use App\Models\Concerns\HasTranslations;
 use App\Models\Concerns\IsSortable;
 use Database\Factories\ServiceFactory;
@@ -14,7 +15,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Service extends Model
 {
     /** @use HasFactory<ServiceFactory> */
-    use HasFactory, HasTranslations, IsSortable;
+    use CleansUpFiles, HasFactory, HasTranslations, IsSortable;
+
+    protected const FILE_ATTRIBUTES = ['image'];
 
     /**
      * @return array<string, string>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\CleansUpFiles;
 use App\Models\Concerns\HasTranslations;
 use App\Models\Concerns\IsSortable;
 use Database\Factories\ProjectFactory;
@@ -14,7 +15,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Project extends Model
 {
     /** @use HasFactory<ProjectFactory> */
-    use HasFactory, HasTranslations, IsSortable;
+    use CleansUpFiles, HasFactory, HasTranslations, IsSortable;
+
+    protected const FILE_ATTRIBUTES = ['image'];
+
+    protected static function booted(): void
+    {
+        // Only one project can be the featured one on the home page.
+        static::saved(function (Project $project): void {
+            if ($project->featured && ($project->wasRecentlyCreated || $project->wasChanged('featured'))) {
+                static::query()->whereKeyNot($project->getKey())->where('featured', true)->update(['featured' => false]);
+            }
+        });
+    }
 
     /**
      * @return array<string, string>

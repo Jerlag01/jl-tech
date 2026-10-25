@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\CleansUpFiles;
 use App\Models\Concerns\HasTranslations;
 use App\Models\Concerns\IsSortable;
 use Database\Factories\ItemFactory;
@@ -15,7 +16,9 @@ use Illuminate\Support\Collection;
 class Item extends Model
 {
     /** @use HasFactory<ItemFactory> */
-    use HasFactory, HasTranslations, IsSortable;
+    use CleansUpFiles, HasFactory, HasTranslations, IsSortable;
+
+    protected const FILE_ATTRIBUTES = ['image'];
 
     /**
      * @return array<string, string>

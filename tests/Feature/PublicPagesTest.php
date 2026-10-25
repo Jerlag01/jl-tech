@@ -31,6 +31,9 @@ class PublicPagesTest extends TestCase
         // Data providers run before the application boots, so read the config file directly.
         $pages = (require dirname(__DIR__, 2).'/config/site.php')['pages'];
 
+        // "Who is who" and "News" are hidden while empty; WhoIsWhoAndNewsTest covers them.
+        unset($pages['who_is_who'], $pages['news']);
+
         foreach ($pages as $page => $slugs) {
             foreach ($slugs as $locale => $slug) {
                 $urls["{$locale}.{$page}"] = [trim("/{$locale}/{$slug}", '/')];

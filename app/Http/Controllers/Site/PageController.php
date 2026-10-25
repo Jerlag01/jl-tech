@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Employee;
 use App\Models\Item;
 use App\Models\JobOffer;
+use App\Models\Post;
 use App\Models\Project;
 use App\Models\Service;
 use Illuminate\View\View;
@@ -78,6 +80,34 @@ class PageController extends Controller
         return view('site.jobs', [
             'jobs' => JobOffer::query()->visible()->get(),
             'serviceCount' => Service::query()->where('active', true)->count(),
+        ]);
+    }
+
+    public function whoIsWho(): View
+    {
+        $this->ensureEnabled('who_is_who');
+
+        return view('site.who-is-who', [
+            'employees' => Employee::query()->visible()->get(),
+        ]);
+    }
+
+    public function news(): View
+    {
+        $this->ensureEnabled('news');
+
+        return view('site.news', [
+            'posts' => Post::query()->latestPublished()->paginate(9),
+        ]);
+    }
+
+    public function post(Post $post): View
+    {
+        abort_unless(content_enabled('pages.news') && $post->isPublished(), 404);
+
+        return view('site.post', [
+            'post' => $post,
+            'related' => Post::query()->latestPublished()->whereKeyNot($post->getKey())->take(3)->get(),
         ]);
     }
 

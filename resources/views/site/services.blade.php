@@ -9,7 +9,7 @@
                 <div class="service-grid">
                     <div class="service-image-wrapper {{ $loop->even ? 'reveal-right' : 'reveal-left' }}">
                         <div class="service-image-container">
-                            <div class="service-icon-badge"><x-icon :name="$service->icon" size="28" /></div>
+                            <div class="service-icon-badge"><x-site-icon :name="$service->icon" size="28" /></div>
                             @include('site.partials.image', ['src' => media_url($service->image), 'alt' => $service->tr('title'), 'icon' => $service->icon])
                         </div>
                         @if ($stats = $service->trStats())
@@ -32,11 +32,11 @@
                         @if ($features = $service->trLines('features'))
                             <ul class="features-list">
                                 @foreach ($features as $feature)
-                                    <li><x-icon name="check" size="18" /> <span>{{ $feature }}</span></li>
+                                    <li><x-site-icon name="check" size="18" /> <span>{{ $feature }}</span></li>
                                 @endforeach
                             </ul>
                         @endif
-                        <a href="{{ page_url('projects') }}" class="btn btn-primary">{{ content('services.button') }} <x-icon name="arrow" size="16" /></a>
+                        <a href="{{ page_url('projects') }}" class="btn btn-primary">{{ content('services.button') }} <x-site-icon name="arrow" size="16" /></a>
                     </div>
                 </div>
             </div>

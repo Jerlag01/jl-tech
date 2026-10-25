@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Content;
+use App\Models\Employee;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,11 +58,12 @@ if (! function_exists('media_url')) {
 if (! function_exists('page_enabled')) {
     function page_enabled(string $page): bool
     {
-        if (! in_array($page, config('site.optional_pages'), true)) {
-            return true;
-        }
-
-        return content_enabled("pages.{$page}");
+        return match (true) {
+            $page === 'who_is_who' => Employee::pageIsAvailable(),
+            $page === 'news' => Post::pageIsAvailable(),
+            in_array($page, config('site.optional_pages'), true) => content_enabled("pages.{$page}"),
+            default => true,
+        };
     }
 }
 
@@ -73,7 +76,8 @@ if (! function_exists('page_url')) {
         $locale ??= app()->getLocale();
         $name = "{$locale}.{$page}";
 
-        $url = Route::has($name) ? route($name) : url($locale);
+        // Pages with parameters (a news post) reuse the current ones, e.g. for the language switcher.
+        $url = Route::has($name) ? route($name, $page === current_page() ? (Route::current()?->parameters() ?? []) : []) : url($locale);
 
         return $fragment !== '' ? "{$url}#{$fragment}" : $url;
     }

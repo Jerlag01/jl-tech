@@ -37,15 +37,18 @@ return [
         'team' => ['nl' => 'team-en-middelen', 'en' => 'team-and-resources'],
         'esg' => ['nl' => 'esg', 'en' => 'esg'],
         'jobs' => ['nl' => 'vacatures', 'en' => 'careers'],
+        'who_is_who' => ['nl' => 'wie-is-wie', 'en' => 'who-is-who'],
+        'news' => ['nl' => 'nieuws', 'en' => 'news'],
         'contact' => ['nl' => 'contact', 'en' => 'contact'],
         'privacy' => ['nl' => 'privacybeleid', 'en' => 'privacy-policy'],
     ],
 
     /*
-    | Pages that can be switched off in the admin (Settings → Pages).
+    | Pages that can be switched off in the admin (Website settings → General).
+    | "Who is who" and "News" are also hidden while they have nothing to show.
     */
 
-    'optional_pages' => ['history', 'team', 'esg', 'jobs'],
+    'optional_pages' => ['history', 'team', 'esg', 'jobs', 'who_is_who', 'news'],
 
     /*
     |--------------------------------------------------------------------------

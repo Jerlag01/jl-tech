@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\CleansUpFiles;
 use App\Models\Concerns\IsSortable;
 use Database\Factories\ClientFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -12,7 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     /** @use HasFactory<ClientFactory> */
-    use HasFactory, IsSortable;
+    use CleansUpFiles, HasFactory, IsSortable;
+
+    protected const FILE_ATTRIBUTES = ['logo'];
 
     /**
      * @return array<string, string>

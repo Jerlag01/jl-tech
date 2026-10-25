@@ -62,7 +62,7 @@
                 <div class="card-grid-3">
                     @foreach ($qualifications as $qualification)
                         <div class="icon-card reveal-scale reveal-delay-{{ ($loop->index % 3) + 1 }}">
-                            <div class="icon-card-icon"><x-icon :name="$qualification->icon" size="26" /></div>
+                            <div class="icon-card-icon"><x-site-icon :name="$qualification->icon" size="26" /></div>
                             <h4>{{ $qualification->tr('title') }}</h4>
                             <p>{{ $qualification->tr('body') }}</p>
                         </div>
@@ -83,7 +83,7 @@
                 <div class="fleet-grid">
                     @foreach ($fleet as $vehicle)
                         <div class="fleet-card reveal-scale reveal-delay-{{ min($loop->iteration, 4) }}">
-                            <div class="fleet-icon"><x-icon :name="$vehicle->icon ?: 'truck'" size="28" /></div>
+                            <div class="fleet-icon"><x-site-icon :name="$vehicle->icon ?: 'truck'" size="28" /></div>
                             @if ($vehicle->value)
                                 <div class="fleet-quantity">{{ $vehicle->value }}</div>
                             @endif

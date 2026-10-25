@@ -66,7 +66,7 @@
                                 {!! __('I agree that my data is processed in accordance with the :link.', ['link' => '<a href="'.e(page_url('privacy')).'">'.e(__('privacy policy')).'</a>']) !!} *
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-large form-submit">{{ __('Send message') }} <x-icon name="arrow" size="16" /></button>
+                        <button type="submit" class="btn btn-primary btn-large form-submit">{{ __('Send message') }} <x-site-icon name="arrow" size="16" /></button>
                     </form>
                 </div>
 
@@ -74,21 +74,21 @@
                     <div class="contact-info-box">
                         <h3>{{ content('contact_page.info_title') }}</h3>
                         <div class="info-item">
-                            <div class="info-icon"><x-icon name="map" size="20" /></div>
+                            <div class="info-icon"><x-site-icon name="map" size="20" /></div>
                             <div>
                                 <div class="info-label">{{ __('Address') }}</div>
                                 <div class="info-value">{{ content('contact.street') }}<br>{{ content('contact.city') }}<br>{{ content('contact.country') }}</div>
                             </div>
                         </div>
                         <div class="info-item">
-                            <div class="info-icon"><x-icon name="clock" size="20" /></div>
+                            <div class="info-icon"><x-site-icon name="clock" size="20" /></div>
                             <div>
                                 <div class="info-label">{{ __('Opening hours') }}</div>
                                 <div class="info-value">{!! nl2br(e(content('contact.hours'))) !!}</div>
                             </div>
                         </div>
                         <div class="info-item">
-                            <div class="info-icon"><x-icon name="navigation" size="20" /></div>
+                            <div class="info-icon"><x-site-icon name="navigation" size="20" /></div>
                             <div>
                                 <div class="info-label">{{ __('Service area') }}</div>
                                 <div class="info-value">{{ content('contact.area') }}</div>
@@ -102,19 +102,19 @@
                         <div class="contact-methods">
                             @if ($phone)
                                 <a href="tel:{{ preg_replace('/[^+\d]/', '', $phone) }}" class="contact-method">
-                                    <x-icon name="phone" size="20" />
+                                    <x-site-icon name="phone" size="20" />
                                     <span><span class="contact-method-text">{{ $phone }}</span><span class="contact-method-sub">{{ content('contact.phone_hours') }}</span></span>
                                 </a>
                             @endif
                             @if ($email)
                                 <a href="mailto:{{ $email }}" class="contact-method">
-                                    <x-icon name="mail" size="20" />
+                                    <x-site-icon name="mail" size="20" />
                                     <span><span class="contact-method-text">{{ __('Email') }}</span><span class="contact-method-sub">{{ $email }}</span></span>
                                 </a>
                             @endif
                             @if (content('contact_page.emergency'))
                                 <div class="contact-method">
-                                    <x-icon name="alert" size="20" />
+                                    <x-site-icon name="alert" size="20" />
                                     <span><span class="contact-method-text">{{ __('Emergencies') }}</span><span class="contact-method-sub">{{ content('contact_page.emergency') }}</span></span>
                                 </div>
                             @endif
@@ -134,7 +134,7 @@
                         <h3>{{ content('company.legal_name') }}</h3>
                         <p>{{ $mapQuery }}</p>
                     </div>
-                    <a href="https://www.google.com/maps/dir//{{ urlencode($mapQuery) }}" target="_blank" rel="noopener" class="btn btn-primary"><x-icon name="navigation" size="16" /> {{ __('Directions') }}</a>
+                    <a href="https://www.google.com/maps/dir//{{ urlencode($mapQuery) }}" target="_blank" rel="noopener" class="btn btn-primary"><x-site-icon name="navigation" size="16" /> {{ __('Directions') }}</a>
                 </div>
             </div>
         </section>

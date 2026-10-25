@@ -42,7 +42,7 @@
                     </h1>
                     <p class="hero-description">{{ content('home.hero_text') }}</p>
                     <div class="hero-actions">
-                        <a href="{{ page_url('projects') }}" class="btn btn-primary btn-large">{{ content('home.hero_button_1') }} <x-icon name="arrow" size="16" /></a>
+                        <a href="{{ page_url('projects') }}" class="btn btn-primary btn-large">{{ content('home.hero_button_1') }} <x-site-icon name="arrow" size="16" /></a>
                         <a href="{{ page_url('services') }}" class="btn btn-outline-light btn-large">{{ content('home.hero_button_2') }}</a>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     @if ($services->isNotEmpty())
                         <ul class="intro-feature-list">
                             @foreach ($services as $service)
-                                <li><x-icon name="check" size="18" /> {{ $service->tr('title') }}</li>
+                                <li><x-site-icon name="check" size="18" /> {{ $service->tr('title') }}</li>
                             @endforeach
                         </ul>
                     @endif
@@ -139,7 +139,7 @@
                         <span class="eyebrow">{{ content('home.services_label') }}</span>
                         <h2 class="section-title">{{ content('home.services_title') }}</h2>
                     </div>
-                    <a href="{{ page_url('services') }}" class="btn btn-primary reveal reveal-delay-2">{{ content('home.services_button') }} <x-icon name="arrow" size="16" /></a>
+                    <a href="{{ page_url('services') }}" class="btn btn-primary reveal reveal-delay-2">{{ content('home.services_button') }} <x-site-icon name="arrow" size="16" /></a>
                 </div>
                 <div class="service-card-grid count-{{ min($services->count(), 6) }}">
                     @foreach ($services as $service)
@@ -181,7 +181,7 @@
                                 @endforeach
                             </div>
                         @endif
-                        <a href="{{ page_url('projects') }}" class="btn btn-primary">{{ content('home.featured_button') }} <x-icon name="arrow" size="16" /></a>
+                        <a href="{{ page_url('projects') }}" class="btn btn-primary">{{ content('home.featured_button') }} <x-site-icon name="arrow" size="16" /></a>
                     </div>
                 </div>
             </div>
@@ -197,7 +197,7 @@
                         <span class="eyebrow">{{ content('home.projects_label') }}</span>
                         <h2 class="section-title">{{ content('home.projects_title') }}</h2>
                     </div>
-                    <a href="{{ page_url('projects') }}" class="btn btn-outline reveal reveal-delay-2">{{ content('home.projects_button') }} <x-icon name="arrow" size="16" /></a>
+                    <a href="{{ page_url('projects') }}" class="btn btn-outline reveal reveal-delay-2">{{ content('home.projects_button') }} <x-site-icon name="arrow" size="16" /></a>
                 </div>
                 <div class="project-tile-grid">
                     @foreach ($projects as $project)
